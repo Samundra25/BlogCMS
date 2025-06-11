@@ -1,6 +1,8 @@
 const express = require("express"); //requiring express package
 const app = express(); //storing it in app, app variable throughout project ma use garxam
 
+require("./model/index");
+
 app.set("view engine", "ejs"); // ejs use gardai xu, k k env set chaiyeko xa gardey vaney ko
 
 //form bata data aairako xa  teslai parse or handle gaar  vaneko

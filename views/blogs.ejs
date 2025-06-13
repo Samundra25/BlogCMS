@@ -106,33 +106,18 @@
     </nav>
 
     <!-- Card Section -->
+
     <section class="card-container">
+      <% blogs.forEach((blog)=>{ %>
       <div class="card">
-        <div class="card-title">Card Title 1</div>
+        <div class="card-title"><%- blog.title%></div>
         <div class="card-subtitle">Subtitle 1</div>
         <div class="card-description">
           This is a short description of the first card. It explains the purpose
           of this item.
         </div>
       </div>
-
-      <div class="card">
-        <div class="card-title">Card Title 2</div>
-        <div class="card-subtitle">Subtitle 2</div>
-        <div class="card-description">
-          Here is the second card's description. It might contain slightly
-          different information.
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-title">Card Title 3</div>
-        <div class="card-subtitle">Subtitle 3</div>
-        <div class="card-description">
-          A third card with a simple description to demonstrate how the layout
-          works responsively.
-        </div>
-      </div>
+      <% }) %>
     </section>
   </body>
 </html>

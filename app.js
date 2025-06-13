@@ -1,7 +1,9 @@
 const express = require("express"); //requiring express package
+const { blogs } = require("./model/index");
 const app = express(); //storing it in app, app variable throughout project ma use garxam
-
-require("./model/index");
+// require("./model/index");
+// const db = require("./model");
+// const Blog = db.blogs;
 
 app.set("view engine", "ejs"); // ejs use gardai xu, k k env set chaiyeko xa gardey vaney ko
 
@@ -9,9 +11,18 @@ app.set("view engine", "ejs"); // ejs use gardai xu, k k env set chaiyeko xa gar
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
   //   res.send("Hello welcome to Sky");
-  res.render("blogs");
+
+  // const allBlogs = await blogs.findAll();
+  // console.log(allBlogs);
+  const allBlogs = await blogs.findAll();
+
+  //allBlogs.length=6
+  // console.log(allBlogs);
+
+  res.render("blogs", { blogs: allBlogs });
+  // res.render("blogs", { blogs: allBlogs });
 });
 
 //createBlog
@@ -20,11 +31,34 @@ app.get("/createBlog", (req, res) => {
 });
 
 //postBlog
-app.post("/createBlog", (req, res) => {
-  console.log(req.body);
-  res.send("Form submitted successfully");
+app.post("/createBlog", async (req, res) => {
+  // console.log(req.body);
+  // console.log(req.body.title);
+  const title = req.body.title;
+  const subtitle = req.body.subtitle;
+  const description = req.body.content;
+
+  //database ma halna lai
+  // await Blog.create({
+  //   title: title,
+  //   subtitle: subTitle,
+  //   description: description,
+  // });
+  // const { title, subtitle, content } = req.body;
+  // console.log(title, subTitle, description);
+
+  await blogs.create({
+    title: title,
+    subtitle: subtitle,
+    description: description,
+  });
+
+  // res.send("Form submitted successfully");
+  res.redirect("/");
 });
 
 app.listen(3000, function () {
   console.log("NodeJS has started on port 3000");
 });
+
+//ISERT INTO blogs (`title`,   subtitle ) v

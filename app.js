@@ -57,6 +57,11 @@ app.post("/createBlog", async (req, res) => {
   res.redirect("/");
 });
 
+//single blog page
+app.get("/single/:id", (req, res) => {
+  res.render("singleBlog");
+  console.log(req.params.id);
+});
 app.listen(3000, function () {
   console.log("NodeJS has started on port 3000");
 });

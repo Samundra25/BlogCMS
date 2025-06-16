@@ -111,11 +111,10 @@
       <% blogs.forEach((blog)=>{ %>
       <div class="card">
         <div class="card-title"><%- blog.title%></div>
-        <div class="card-subtitle">Subtitle 1</div>
-        <div class="card-description">
-          This is a short description of the first card. It explains the purpose
-          of this item.
-        </div>
+        <div class="card-subtitle"><%- blog.subtitle %></div>
+        <div class="card-description"><%- blog.description%></div>
+
+        <a href="/single/<%- blog.id %>">Read More</a>
       </div>
       <% }) %>
     </section>

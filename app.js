@@ -1,5 +1,6 @@
 const express = require("express"); //requiring express package
 const { blogs } = require("./model/index");
+const { where } = require("sequelize");
 const app = express(); //storing it in app, app variable throughout project ma use garxam
 // require("./model/index");
 // const db = require("./model");
@@ -58,12 +59,23 @@ app.post("/createBlog", async (req, res) => {
 });
 
 //single blog page
-app.get("/single/:id", (req, res) => {
-  res.render("singleBlog");
-  console.log(req.params.id);
+app.get("/single/:id", async (req, res) => {
+  // res.render("singleBlog");
+  // console.log(req.params.id);
+
+  const id = req.params.id;
+  const blog = await blogs.findAll({
+    where: {
+      id: id,
+    },
+  });
+
+  console.log(blog);
+  //second approach
+  // const blog = await blogs.findByPk(id);
+  // res.render("singleBlog");
+  res.render("singleBlog", { blog: blog });
 });
 app.listen(3000, function () {
   console.log("NodeJS has started on port 3000");
 });
-
-//ISERT INTO blogs (`title`,   subtitle ) v

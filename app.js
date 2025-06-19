@@ -70,12 +70,59 @@ app.get("/single/:id", async (req, res) => {
     },
   });
 
-  console.log(blog);
+  // console.log(blog);
   //second approach
   // const blog = await blogs.findByPk(id);
   // res.render("singleBlog");
   res.render("singleBlog", { blog: blog });
 });
+//deletw page
+app.get("/delete/:id", (req, res) => {
+  const id = req.params.id;
+  blogs.destroy({
+    where: {
+      id: id,
+    },
+  });
+  // res.send ("From delete page");
+  res.redirect("/");
+});
+
+//edit blog
+app.get("/edit/:id", async (req, res) => {
+  // console.log(req.params.id);
+  // res.render("editBlog");
+
+  const id = req.params.id;
+  const blog = await blogs.findAll({
+    where: {
+      id: id,
+    },
+  });
+  res.render("editBlog", { blog: blog });
+});
+app.post("/editBlog/:id", async (req, res) => {
+  const id = req.params.id;
+  console.log(req.body);
+  const title = req.body.title;
+  const subtitle = req.body.subtitle;
+  const description = req.body.content;
+
+  await blogs.update(
+    {
+      title: title,
+      subtitle: subtitle,
+      description: description,
+    },
+    {
+      where: {
+        id: id,
+      },
+    }
+  );
+  res.redirect("/single/" + id);
+});
+
 app.listen(3000, function () {
   console.log("NodeJS has started on port 3000");
 });

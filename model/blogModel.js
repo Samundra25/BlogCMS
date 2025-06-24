@@ -12,6 +12,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    image: {
+      type: DataTypes.STRING, // store filename or full URL
+      allowNull: true,
+    },
   });
   return Blog;
 };

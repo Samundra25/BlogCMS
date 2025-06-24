@@ -103,18 +103,12 @@
   </head>
   <body>
     <!-- Navbar -->
-    <nav class="navbar">
-      <div class="logo">MyBlogs</div>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="add-blog.html">Add Blogs</a></li>
-      </ul>
-    </nav>
+    <%- include('component/navbar') %>
 
     <!-- Blog Form -->
     <div class="form-container">
       <h2>Create a New Blog</h2>
-      <form action="/createBlog" method="POST">
+      <form action="/createBlog" method="POST" enctype="multipart/form-data">
         <div class="form-group">
           <label for="title">Blog Title</label>
           <input type="text" id="title" name="title" required />
@@ -128,6 +122,11 @@
         <div class="form-group">
           <label for="content">Content</label>
           <textarea id="content" name="content" required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="image">Image</label>
+          <input type="file" id="image" name="image" accept="image/*" />
         </div>
 
         <div class="form-group">

@@ -1,10 +1,25 @@
 const express = require("express"); //requiring express package
 const { blogs } = require("./model/index");
-const { where } = require("sequelize");
+// const { where } = require("sequelize");
 const app = express(); //storing it in app, app variable throughout project ma use garxam
 // require("./model/index");
 // const db = require("./model");
 // const Blog = db.blogs;
+const multer = require("multer");
+const path = require("path");
+
+// Configure multer storage
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "public/uploads/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname)); // e.g. 1719091873.jpg
+  },
+});
+app.use("/uploads", express.static("public/uploads"));
+
+const upload = multer({ storage: storage });
 
 app.set("view engine", "ejs"); // ejs use gardai xu, k k env set chaiyeko xa gardey vaney ko
 
@@ -32,12 +47,13 @@ app.get("/createBlog", (req, res) => {
 });
 
 //postBlog
-app.post("/createBlog", async (req, res) => {
+app.post("/createBlog", upload.single("image"), async (req, res) => {
   // console.log(req.body);
   // console.log(req.body.title);
   const title = req.body.title;
   const subtitle = req.body.subtitle;
   const description = req.body.content;
+  const image = req.file ? req.file.filename : null;
 
   //database ma halna lai
   // await Blog.create({
@@ -52,6 +68,7 @@ app.post("/createBlog", async (req, res) => {
     title: title,
     subtitle: subtitle,
     description: description,
+    image: image,
   });
 
   // res.send("Form submitted successfully");

@@ -97,19 +97,26 @@
   </head>
   <body>
     <!-- Navbar -->
-    <nav class="navbar">
-      <div class="logo">MyBlogs</div>
-      <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/createBlog">Add Blogs</a></li>
-      </ul>
-    </nav>
+    <%- include('component/navbar') %>
 
     <!-- Card Section -->
 
     <section class="card-container">
       <% blogs.forEach((blog)=>{ %>
       <div class="card">
+        <% if (blog.image) { %>
+        <img
+          src="/uploads/<%= blog.image %>"
+          alt="Blog Image"
+          style="
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 10px;
+          "
+        />
+        <% } %>
         <div class="card-title"><%- blog.title%></div>
         <div class="card-subtitle"><%- blog.subtitle %></div>
         <div class="card-description"><%- blog.description%></div>

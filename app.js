@@ -1,10 +1,13 @@
 const express = require("express"); //requiring express package
-const { blogs } = require("./model/index");
+const { blogs, users } = require("./model/index");
 // const { where } = require("sequelize");
 const app = express(); //storing it in app, app variable throughout project ma use garxam
 // require("./model/index");
 // const db = require("./model");
 // const Blog = db.blogs;
+
+const bcrypt = require("bcryptjs");
+
 const multer = require("multer");
 const path = require("path");
 
@@ -138,6 +141,24 @@ app.post("/editBlog/:id", async (req, res) => {
     }
   );
   res.redirect("/single/" + id);
+});
+
+///register
+app.get("/register", (req, res) => {
+  res.render("register");
+});
+app.post("/register", async (req, res) => {
+  console.log(req.body);
+  const email = req.body.email;
+  const username = req.body.username;
+  const password = req.body.password;
+
+  await users.create({
+    email: email,
+    username: username,
+    password: bcrypt.hashSync(password, 8),
+  });
+  res.send("User Submitted succesfully");
 });
 
 app.listen(3000, function () {

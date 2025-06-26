@@ -3,5 +3,11 @@
   <ul>
     <li><a href="/">Home</a></li>
     <li><a href="/createBlog">Add Blogs</a></li>
+
+    <% if (currentUser) { %>
+    <li>Hello, <%= currentUser.username %></li>
+    <% } else { %>
+    <li><a href="/login">Login</a></li>
+    <% } %>
   </ul>
 </nav>

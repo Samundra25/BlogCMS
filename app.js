@@ -8,6 +8,22 @@ const app = express(); //storing it in app, app variable throughout project ma u
 
 const bcrypt = require("bcryptjs");
 
+const session = require("express-session"); //user-login session
+
+app.use(
+  session({
+    secret: "mySecretKey",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+// Make user available in all views
+app.use((req, res, next) => {
+  res.locals.currentUser = req.session.user || null;
+  next();
+});
+
 const multer = require("multer");
 const path = require("path");
 
@@ -158,7 +174,34 @@ app.post("/register", async (req, res) => {
     username: username,
     password: bcrypt.hashSync(password, 8),
   });
-  res.send("User Submitted succesfully");
+  // res.send("User Submitted succesfully");
+  res.redirect("/login");
+});
+
+// Login
+app.get("/login", (req, res) => {
+  res.render("login");
+});
+app.post("/login", async (req, res) => {
+  const { username, password } = req.body;
+  const user = await users.findOne({ where: { username } });
+
+  if (!user) return res.send("User not found");
+  const valid = bcrypt.compareSync(password, user.password);
+  if (!valid) return res.send("Invalid password");
+
+  req.session.user = {
+    id: user.id,
+    username: user.username,
+  };
+
+  res.redirect("/");
+});
+
+// Logout
+app.get("/logout", (req, res) => {
+  req.session.destroy();
+  res.redirect("/");
 });
 
 app.listen(3000, function () {
